@@ -7,3 +7,6 @@ Use [HACS](https://github.com/hacs/integration) to install :
 Add also [Dark Sky](https://www.home-assistant.io/integrations/darksky/)
 
 
+[sample1](https://i.ibb.co/Vt513KK/1.jpg)
+[sample2](https://i.ibb.co/RHKhkRD/2.jpg)
+[sample3](https://i.ibb.co/fk6wSv8/3.jpg)
