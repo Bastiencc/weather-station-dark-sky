@@ -207,126 +207,126 @@ cards:
                         return variables.color_ok_temp; 
                     ]]]
                 
-          - type: "custom:button-card"
-            entity: sensor.plante_interieur_temperature
-            template: meteo_card
-            show_label: true
-            show_icon: true
-            show_name: false
-            icon: mdi:television-classic
-            label: >
-              [[[
-                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
-                        states['sensor.plante_interieur_temperature'].state + states['sensor.plante_interieur_temperature'].attributes.unit_of_measurement;
-              ]]]
-            styles:
-              card:
-                - height: 60px
-              icon:
-                - color: '[[[ return variables.color_icon_temp; ]]]'
-              label:
-                - color: >
-                    [[[ 
-                        if(states['sensor.plante_interieur_temperature'].state < 20){
-                            return variables.color_cold_temp; 
-                        }
-                        if(states['sensor.plante_interieur_temperature'].state > 24){
-                            return variables.color_hot_temp; 
-                        }
-                        return variables.color_ok_temp; 
-                    ]]]
+          # - type: "custom:button-card"
+            # entity: sensor.plante_interieur_temperature
+            # template: meteo_card
+            # show_label: true
+            # show_icon: true
+            # show_name: false
+            # icon: mdi:television-classic
+            # label: >
+              # [[[
+                # return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        # states['sensor.plante_interieur_temperature'].state + states['sensor.plante_interieur_temperature'].attributes.unit_of_measurement;
+              # ]]]
+            # styles:
+              # card:
+                # - height: 60px
+              # icon:
+                # - color: '[[[ return variables.color_icon_temp; ]]]'
+              # label:
+                # - color: >
+                    # [[[ 
+                        # if(states['sensor.plante_interieur_temperature'].state < 20){
+                            # return variables.color_cold_temp; 
+                        # }
+                        # if(states['sensor.plante_interieur_temperature'].state > 24){
+                            # return variables.color_hot_temp; 
+                        # }
+                        # return variables.color_ok_temp; 
+                    # ]]]
                 
-          - type: "custom:button-card"
-            entity: sensor.chambre_1_capteur_temperature
-            template: meteo_card
-            show_label: true
-            show_icon: true
-            show_name: false
-            icon: mdi:bed-king-outline
-            label: >
-              [[[
-                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
-                        states['sensor.chambre_1_capteur_temperature'].state + states['sensor.chambre_1_capteur_temperature'].attributes.unit_of_measurement;
-              ]]]
-            styles:
-              card:
-                - height: 60px
-              icon:
-                - color: '[[[ return variables.color_icon_temp; ]]]'
-              label:
-                - color: >
-                    [[[ 
-                        if(states['sensor.chambre_1_capteur_temperature'].state < 18){
-                            return variables.color_cold_temp; 
-                        }
-                        if(states['sensor.chambre_1_capteur_temperature'].state > 24){
-                            return variables.color_hot_temp; 
-                        }
-                        return variables.color_ok_temp; 
-                    ]]]
+          # - type: "custom:button-card"
+            # entity: sensor.chambre_1_capteur_temperature
+            # template: meteo_card
+            # show_label: true
+            # show_icon: true
+            # show_name: false
+            # icon: mdi:bed-king-outline
+            # label: >
+              # [[[
+                # return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        # states['sensor.chambre_1_capteur_temperature'].state + states['sensor.chambre_1_capteur_temperature'].attributes.unit_of_measurement;
+              # ]]]
+            # styles:
+              # card:
+                # - height: 60px
+              # icon:
+                # - color: '[[[ return variables.color_icon_temp; ]]]'
+              # label:
+                # - color: >
+                    # [[[ 
+                        # if(states['sensor.chambre_1_capteur_temperature'].state < 18){
+                            # return variables.color_cold_temp; 
+                        # }
+                        # if(states['sensor.chambre_1_capteur_temperature'].state > 24){
+                            # return variables.color_hot_temp; 
+                        # }
+                        # return variables.color_ok_temp; 
+                    # ]]]
                 
-          - type: "custom:button-card"
-            entity: sensor.plante_exterieur_temperature
-            template: meteo_card
-            show_label: true
-            show_icon: true
-            show_name: false
-            icon: mdi:flower-tulip-outline
-            label: >
-              [[[
-                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
-                        states['sensor.plante_exterieur_temperature'].state + states['sensor.plante_exterieur_temperature'].attributes.unit_of_measurement;
-              ]]]
-            styles:
-              card:
-                - height: 60px
-              icon:
-                - color: '[[[ return variables.color_icon_temp; ]]]'
-              label:
-                - color: >
-                    [[[ 
-                        if(states['sensor.plante_exterieur_temperature'].state < 10){
-                            return variables.color_cold_temp; 
-                        }
-                        if(states['sensor.plante_exterieur_temperature'].state > 30){
-                            return variables.color_hot_temp; 
-                        }
-                        return variables.color_ok_temp; 
-                    ]]]
+          # - type: "custom:button-card"
+            # entity: sensor.plante_exterieur_temperature
+            # template: meteo_card
+            # show_label: true
+            # show_icon: true
+            # show_name: false
+            # icon: mdi:flower-tulip-outline
+            # label: >
+              # [[[
+                # return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        # states['sensor.plante_exterieur_temperature'].state + states['sensor.plante_exterieur_temperature'].attributes.unit_of_measurement;
+              # ]]]
+            # styles:
+              # card:
+                # - height: 60px
+              # icon:
+                # - color: '[[[ return variables.color_icon_temp; ]]]'
+              # label:
+                # - color: >
+                    # [[[ 
+                        # if(states['sensor.plante_exterieur_temperature'].state < 10){
+                            # return variables.color_cold_temp; 
+                        # }
+                        # if(states['sensor.plante_exterieur_temperature'].state > 30){
+                            # return variables.color_hot_temp; 
+                        # }
+                        # return variables.color_ok_temp; 
+                    # ]]]
                 
-      - type: horizontal-stack
-        cards:
-          - type: "custom:button-card"
-            entity: sensor.chambre_1_capteur_humidity
-            template: meteo_card
-            show_label: true
-            show_icon: false
-            show_name: false
-            label: >
-              [[[
-                return `<ha-icon icon="mdi:air-humidifier" style="width:15px;height:15px;"> </ha-icon>` + 
-                        states['sensor.chambre_1_capteur_humidity'].state + states['sensor.chambre_1_capteur_humidity'].attributes.unit_of_measurement;
-              ]]]
-            styles:
-              label:
-                - align-self: start
-                - text-align: start
+      # - type: horizontal-stack
+        # cards:
+          # - type: "custom:button-card"
+            # entity: sensor.chambre_1_capteur_humidity
+            # template: meteo_card
+            # show_label: true
+            # show_icon: false
+            # show_name: false
+            # label: >
+              # [[[
+                # return `<ha-icon icon="mdi:air-humidifier" style="width:15px;height:15px;"> </ha-icon>` + 
+                        # states['sensor.chambre_1_capteur_humidity'].state + states['sensor.chambre_1_capteur_humidity'].attributes.unit_of_measurement;
+              # ]]]
+            # styles:
+              # label:
+                # - align-self: start
+                # - text-align: start
                 
-          - type: "custom:button-card"
-            entity: sensor.chambre_1_capteur_pressure
-            template: meteo_card
-            show_label: true
-            show_icon: false
-            show_name: false
-            label: >
-              [[[
-                return `<ha-icon icon="mdi:arrow-collapse-vertical" style="width:15px;height:15px;"> </ha-icon>` + 
-                        states['sensor.chambre_1_capteur_pressure'].state + states['sensor.chambre_1_capteur_pressure'].attributes.unit_of_measurement;
-              ]]]
-            styles:
-              label:
-                - align-self: start
-                - text-align: start
+          # - type: "custom:button-card"
+            # entity: sensor.chambre_1_capteur_pressure
+            # template: meteo_card
+            # show_label: true
+            # show_icon: false
+            # show_name: false
+            # label: >
+              # [[[
+                # return `<ha-icon icon="mdi:arrow-collapse-vertical" style="width:15px;height:15px;"> </ha-icon>` + 
+                        # states['sensor.chambre_1_capteur_pressure'].state + states['sensor.chambre_1_capteur_pressure'].attributes.unit_of_measurement;
+              # ]]]
+            # styles:
+              # label:
+                # - align-self: start
+                # - text-align: start
                 
       - type: "custom:button-card"
         template: meteo_lib
@@ -1018,4 +1018,5 @@ cards:
       - type: "custom:button-card"
         template: meteo_pollens
         variables:
-          item_pair: 1       
+          item_pair: 1            
+              
