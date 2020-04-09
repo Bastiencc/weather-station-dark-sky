@@ -1,0 +1,45 @@
+# Weather prediction
+- platform: darksky
+  api_key: !secret darksky_api_key
+  language: fr
+  units: auto
+  forecast:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+  hourly_forecast:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  monitored_conditions:
+    - icon
+    - temperature
+    - apparent_temperature
+    - cloud_cover
+    - precip_type
+    - precip_intensity
+    - precip_probability
+    - precip_accumulation
+    - pressure
+    - humidity
+    - ozone
+    - wind_speed
+    - wind_gust
+    - moon_phase
+    - temperature_high
+    - apparent_temperature_high
+    - temperature_low
+    - apparent_temperature_low
+    - uv_index
+    - sunrise_time
+    - sunset_time
