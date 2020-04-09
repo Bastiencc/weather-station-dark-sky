@@ -1,0 +1,1021 @@
+title: Météo
+icon: mdi:weather-sunset
+cards:
+  - type: vertical-stack
+    cards:
+      - type: "custom:button-card"
+        template: meteo_lib
+        label: >
+          [[[
+            var days = variables.list_days;
+            var myDate = new Date();
+            return `Aujourd'hui, ` + days[myDate.getDay()] + ` ` + myDate.getDate() + `/` + (myDate.getMonth()<10?'0':'') + myDate.getMonth();
+          ]]]
+
+      - type: horizontal-stack
+        cards:                       
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:110px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+                       
+          - type: vertical-stack
+            cards:
+              - type: "custom:button-card"
+                template: meteo_card
+                show_label: true
+                show_icon: false
+                show_name: false
+                label: >
+                  [[[
+                    var ico_tmp = states['sensor.dark_sky_icon'].state;
+                    var ico = variables['label-' + ico_tmp];
+                    return ico;
+                  ]]]
+                styles:
+                  label:
+                    - align-self: middle
+                    - text-align: middle
+                    - font-weight: 'bold'
+                    - font-size: '1.2em'
+                    - color: >
+                        [[[
+                          var color_tmp = states['sensor.dark_sky_icon'].state;
+                          var color = variables['color-' + color_tmp];
+                          return color;
+                        ]]]
+                  
+              - type: "custom:button-card"
+                template: meteo_card
+                show_label: true
+                show_icon: false
+                show_name: false
+                label: >
+                  [[[
+                    var i = 0;
+                                      
+                    return `<ha-icon icon="` + variables.ico_wind_speed + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                                + Math.round(states['sensor.dark_sky_wind_speed'].state * 3.6) + `km/h (` + Math.round(states['sensor.dark_sky_wind_gust'].state * 3.6) + `)<br/>` + 
+                                
+                           `<ha-icon icon="` + variables.ico_uv_index + `" style="width:15px;height:15px;"> </ha-icon> UV: ` 
+                                + states['sensor.dark_sky_uv_index'].state
+                    ;
+                  ]]]
+                styles:
+                  label:
+                    - align-self: start
+                    - text-align: start
+            
+      - type: horizontal-stack
+        cards:  
+          - type: "custom:button-card"
+            template: meteo_card
+            show_label: true
+            show_icon: false
+            show_name: false
+            label: >
+              [[[
+                var i = 0;
+                                
+                var precip_txt = '0%';
+                var precip_ico = variables.ico_precip_rain;
+                var precip_state = states['sensor.dark_sky_precip'].state;
+                if(precip_state != 'unknown'){
+                    if(precip_state == 'rain'){
+                        precip_ico = variables.ico_precip_rain;
+                        precip_txt = states['sensor.dark_sky_precip_probability'].state + states['sensor.dark_sky_precip_probability'].attributes.unit_of_measurement + ` - ` + 
+                                     states['sensor.dark_sky_precip_intensity'].state + states['sensor.dark_sky_precip_intensity'].attributes.unit_of_measurement
+                    }
+                    if(precip_state == 'snow'){
+                        precip_ico = variables.ico_precip_snow;
+                        precip_txt = states['sensor.dark_sky_precip_probability'].state + states['sensor.dark_sky_precip_probability'].attributes.unit_of_measurement + ` - ` + 
+                                     states['sensor.dark_sky_precip_accumulation_' + i + 'd'].state + states['sensor.dark_sky_precip_accumulation_' + i + 'd'].attributes.unit_of_measurement
+                        ;
+                    }
+                    if(precip_state == 'sleet'){
+                        precip_ico = variables.ico_precip_rain;
+                        precip_txt = states['sensor.dark_sky_precip_probability'].state + states['sensor.dark_sky_precip_probability'].attributes.unit_of_measurement + ` - ` + 
+                                     states['sensor.dark_sky_precip_accumulation_' + i + 'd'].state + states['sensor.dark_sky_precip_accumulation_' + i + 'd'].attributes.unit_of_measurement
+                    }
+                }
+                
+                
+              
+                return `<ha-icon icon="` + variables.ico_cloud_coverage + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                            + states['sensor.dark_sky_cloud_coverage'].state + states['sensor.dark_sky_cloud_coverage'].attributes.unit_of_measurement + `<br/>` + 
+                            
+                       `<ha-icon icon="` + precip_ico + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                            + precip_txt + `<br/>` + 
+                            
+                       `<ha-icon icon="` + variables.ico_humidity + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                            + states['sensor.dark_sky_humidity'].state + states['sensor.dark_sky_humidity'].attributes.unit_of_measurement 
+                ;
+              ]]]
+            styles:
+              label:
+                - align-self: start
+                - text-align: start
+                
+                
+          - type: "custom:button-card"
+            template: meteo_card
+            show_label: true
+            show_icon: false
+            show_name: false
+            label: >
+              [[[
+                var i = 0;
+                
+                var myDate = new Date(states['sensor.dark_sky_sunrise_' + i + 'd'].state);
+                var sunrise_time = (myDate.getHours()<10?'0':'') + myDate.getHours() + `h` + (myDate.getMinutes()<10?'0':'') + myDate.getMinutes();
+                
+                myDate = new Date(states['sensor.dark_sky_sunset_' + i + 'd'].state);
+                var sunset_time = (myDate.getHours()<10?'0':'') + myDate.getHours() + `h` + (myDate.getMinutes()<10?'0':'') + myDate.getMinutes();
+                
+                
+              
+                return `<ha-icon icon="` + variables.ico_ozone + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                            + states['sensor.dark_sky_ozone'].state + states['sensor.dark_sky_ozone'].attributes.unit_of_measurement + `<br/>` + 
+                            
+                       `<ha-icon icon="` + variables.ico_sunrise + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                            + sunrise_time + `<br/>` + 
+                            
+                       `<ha-icon icon="` + variables.ico_sunset + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                            + sunset_time 
+                ;
+              ]]]
+            styles:
+              label:
+                - align-self: start
+                - text-align: start
+          
+              
+      - type: horizontal-stack
+        cards:
+          - type: "custom:button-card"
+            entity: sensor.dark_sky_temperature
+            template: meteo_card
+            show_label: true
+            show_icon: true
+            show_name: false
+            icon: mdi:web
+            label: >
+              [[[
+                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        states['sensor.dark_sky_temperature'].state + states['sensor.dark_sky_temperature'].attributes.unit_of_measurement;
+              ]]]
+            styles:
+              card:
+                - height: 60px
+              icon:
+                - color: '[[[ return variables.color_icon_temp; ]]]'
+              label:
+                - color: >
+                    [[[ 
+                        if(states['sensor.dark_sky_temperature'].state < 10){
+                            return variables.color_cold_temp; 
+                        }
+                        if(states['sensor.dark_sky_temperature'].state > 30){
+                            return variables.color_hot_temp; 
+                        }
+                        return variables.color_ok_temp; 
+                    ]]]
+                
+          - type: "custom:button-card"
+            entity: sensor.plante_interieur_temperature
+            template: meteo_card
+            show_label: true
+            show_icon: true
+            show_name: false
+            icon: mdi:television-classic
+            label: >
+              [[[
+                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        states['sensor.plante_interieur_temperature'].state + states['sensor.plante_interieur_temperature'].attributes.unit_of_measurement;
+              ]]]
+            styles:
+              card:
+                - height: 60px
+              icon:
+                - color: '[[[ return variables.color_icon_temp; ]]]'
+              label:
+                - color: >
+                    [[[ 
+                        if(states['sensor.plante_interieur_temperature'].state < 20){
+                            return variables.color_cold_temp; 
+                        }
+                        if(states['sensor.plante_interieur_temperature'].state > 24){
+                            return variables.color_hot_temp; 
+                        }
+                        return variables.color_ok_temp; 
+                    ]]]
+                
+          - type: "custom:button-card"
+            entity: sensor.chambre_1_capteur_temperature
+            template: meteo_card
+            show_label: true
+            show_icon: true
+            show_name: false
+            icon: mdi:bed-king-outline
+            label: >
+              [[[
+                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        states['sensor.chambre_1_capteur_temperature'].state + states['sensor.chambre_1_capteur_temperature'].attributes.unit_of_measurement;
+              ]]]
+            styles:
+              card:
+                - height: 60px
+              icon:
+                - color: '[[[ return variables.color_icon_temp; ]]]'
+              label:
+                - color: >
+                    [[[ 
+                        if(states['sensor.chambre_1_capteur_temperature'].state < 18){
+                            return variables.color_cold_temp; 
+                        }
+                        if(states['sensor.chambre_1_capteur_temperature'].state > 24){
+                            return variables.color_hot_temp; 
+                        }
+                        return variables.color_ok_temp; 
+                    ]]]
+                
+          - type: "custom:button-card"
+            entity: sensor.plante_exterieur_temperature
+            template: meteo_card
+            show_label: true
+            show_icon: true
+            show_name: false
+            icon: mdi:flower-tulip-outline
+            label: >
+              [[[
+                return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
+                        states['sensor.plante_exterieur_temperature'].state + states['sensor.plante_exterieur_temperature'].attributes.unit_of_measurement;
+              ]]]
+            styles:
+              card:
+                - height: 60px
+              icon:
+                - color: '[[[ return variables.color_icon_temp; ]]]'
+              label:
+                - color: >
+                    [[[ 
+                        if(states['sensor.plante_exterieur_temperature'].state < 10){
+                            return variables.color_cold_temp; 
+                        }
+                        if(states['sensor.plante_exterieur_temperature'].state > 30){
+                            return variables.color_hot_temp; 
+                        }
+                        return variables.color_ok_temp; 
+                    ]]]
+                
+      - type: horizontal-stack
+        cards:
+          - type: "custom:button-card"
+            entity: sensor.chambre_1_capteur_humidity
+            template: meteo_card
+            show_label: true
+            show_icon: false
+            show_name: false
+            label: >
+              [[[
+                return `<ha-icon icon="mdi:air-humidifier" style="width:15px;height:15px;"> </ha-icon>` + 
+                        states['sensor.chambre_1_capteur_humidity'].state + states['sensor.chambre_1_capteur_humidity'].attributes.unit_of_measurement;
+              ]]]
+            styles:
+              label:
+                - align-self: start
+                - text-align: start
+                
+          - type: "custom:button-card"
+            entity: sensor.chambre_1_capteur_pressure
+            template: meteo_card
+            show_label: true
+            show_icon: false
+            show_name: false
+            label: >
+              [[[
+                return `<ha-icon icon="mdi:arrow-collapse-vertical" style="width:15px;height:15px;"> </ha-icon>` + 
+                        states['sensor.chambre_1_capteur_pressure'].state + states['sensor.chambre_1_capteur_pressure'].attributes.unit_of_measurement;
+              ]]]
+            styles:
+              label:
+                - align-self: start
+                - text-align: start
+                
+      - type: "custom:button-card"
+        template: meteo_lib
+        label: Plus tard...
+        
+      - type: horizontal-stack
+        cards:                
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '1h'  
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '2h'  
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '3h'  
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '4h'  
+              
+      - type: horizontal-stack
+        cards:                
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_1h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_2h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_3h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_4h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+                  
+                  
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '1h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '2h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '3h'
+              
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '4h'
+              
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '1h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '2h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '3h'
+              
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '4h'
+  
+      - type: horizontal-stack
+        cards:                
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '5h'  
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '6h'  
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '7h'  
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '8h'  
+              
+      - type: horizontal-stack
+        cards:                
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_5h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_6h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_7h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:55px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_8h
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+                  
+                  
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '5h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '6h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '7h'
+              
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '8h'
+              
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '5h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '6h'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '7h'
+              
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '8h'
+  
+             
+      - type: "custom:button-card"
+        template: meteo_lib
+        label: Cette semaine...
+          
+      - type: horizontal-stack
+        cards:                
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '1d'
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '2d'
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '3d'
+              
+      - type: horizontal-stack
+        cards:                
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:72px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_1d
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:72px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_2d
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:72px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_3d
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+                
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '1d'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '2d'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '3d'
+                
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '1d'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '2d'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '3d'
+                
+      - type: horizontal-stack
+        cards:                
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '4d'
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '5d'
+          - type: "custom:button-card"
+            template: meteo_card_day_date
+            variables:
+              item_num: '6d'
+              
+      - type: horizontal-stack
+        cards:                
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:72px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_4d
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:72px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_5d
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+          - type: picture-elements
+            image: /local/img/weather/ico-empty.png?v=0.107
+            style: |
+              ha-card {
+                box-shadow: none;
+                height:72px;
+              }
+            elements:
+              - type: image
+                entity: sensor.dark_sky_icon_6d
+                image: /local/img/weather/ico-empty.svg?v=0.107
+                state_image:
+                  "partly-cloudy-day": /local/img/weather/ico-partly-cloudy-day.svg?v=0.107
+                  "partly-cloudy-night": /local/img/weather/ico-partly-cloudy-night.svg?v=0.107
+                  "cloudy": /local/img/weather/ico-cloudy.svg?v=0.107
+                  "snow": /local/img/weather/ico-snow.svg?v=0.107
+                  "rain": /local/img/weather/ico-rain.svg?v=0.107
+                  "sleet": /local/img/weather/ico-sleet.svg?v=0.107
+                  "clear-day": /local/img/weather/ico-clear-day.svg?v=0.107
+                  "clear-night": /local/img/weather/ico-clear-night.svg?v=0.107
+                  "wind": /local/img/weather/ico-win.svg?v=0.107
+                  "fog": /local/img/weather/ico-fog.svg?v=0.107
+                  "hail": /local/img/weather/ico-hail.svg?v=0.107
+                  "thunderstorm": /local/img/weather/ico-thunderstorm.svg?v=0.107
+                  "tornado": /local/img/weather/ico-tornado.svg?v=0.107
+                style:
+                  left: 50%
+                  top: 25%
+                  width: 50%
+                  heigth: 50%
+                
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '4d'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '5d'
+              
+          - type: "custom:button-card"
+            template: meteo_card_day_ico
+            variables:
+              item_num: '6d'
+              
+      - type: horizontal-stack
+        cards:
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '4d'
+                
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '5d'                
+    
+          - type: "custom:button-card"
+            template: meteo_card_day_text
+            variables:
+              item_num: '6d'                
+              
+          
+  - type: "custom:button-card"
+    template: meteo_lib
+    label: Pollens
+    
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: meteo_pollens
+        variables:
+          item_pair: 0
+          
+      - type: "custom:button-card"
+        template: meteo_pollens
+        variables:
+          item_pair: 1       
