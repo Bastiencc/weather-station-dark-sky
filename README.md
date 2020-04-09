@@ -1,11 +1,10 @@
-# weatherstation
+# Weather Station - Dark Sky
 
+Custom view based on [Dark Sky](https://www.home-assistant.io/integrations/darksky/) integration.
 
 Use [HACS](https://github.com/hacs/integration) to install :
 - [button-card](https://github.com/custom-cards/button-card)
 - [lovelace-card-mod](https://github.com/thomasloven/lovelace-card-mod)
-
-Add also [Dark Sky](https://www.home-assistant.io/integrations/darksky/)
 
 
 # Pictures
