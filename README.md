@@ -1,8 +1,6 @@
-# Lovelace Weather Station - Dark Sky
+# Lovelace Weather Station - Dark Sky 🌞🌛
 
 The Lovelace Weather Station view provides current and forecasted weather conditions using the [Dark Sky](https://www.home-assistant.io/integrations/darksky/) integration.
-
-[![GitHub Release][releases-shield]][releases]
 
 ## Requirements
 
