@@ -1,0 +1,346 @@
+button_card_templates:
+
+  meteo_vars:
+    variables:
+    
+      item_num: '1d'
+            
+      list_days: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+      
+      ico-partly-cloudy-day: 'mdi:weather-partly-cloudy'
+      ico-partly-cloudy-night: 'mdi:weather-night-partly-cloudy'
+      ico-cloudy: 'mdi:weather-cloudy'
+      ico-snow: 'mdi:weather-snowy'
+      ico-rain: 'mdi:weather-pouring'
+      ico-sleet: 'mdi:weather-snowy-rainy'
+      ico-clear-day: 'mdi:weather-sunny'
+      ico-clear-night: 'mdi:weather-night'
+      ico-wind: 'mdi:weather-wind'
+      ico-fog: 'mdi:weather-fog'
+      ico-hail: 'mdi:weather-hail'
+      ico-thunderstorm: 'mdi:weather-lightning'
+      ico-tornado: 'mdi:weather-tornado'
+      
+      color-partly-cloudy-day: '#d18b49'
+      color-partly-cloudy-night: '#d18b49'
+      color-cloudy: '#453e38'
+      color-snow: '#6f36a8'
+      color-rain: '#6f36a8'
+      color-sleet: '#6f36a8'
+      color-clear-day: '#d18b49'
+      color-clear-night: '#5c5c5c'
+      color-wind: '#5c5c5c'
+      color-fog: '#000c8c'
+      color-hail: '#6f36a8'
+      color-thunderstorm: '#6f36a8'
+      color-tornado: '#5c5c5c'
+      
+      label-partly-cloudy-day: 'Partiellement nuageux'
+      label-partly-cloudy-night: 'Nuit nuageuse'
+      label-cloudy: 'Nuageux'
+      label-snow: 'Neige'
+      label-rain: 'Pluie'
+      label-sleet: 'Neige fondue'
+      label-clear-day: 'Ensoleillé'
+      label-clear-night: 'Nuit dégagée'
+      label-wind: 'Venteux'
+      label-fog: 'Brouillard'
+      label-hail: 'Grêle'
+      label-thunderstorm: 'Orageux'
+      label_tornado: 'Tornade'
+      
+      
+      ico_precip_rain: 'mdi:weather-rainy'
+      ico_precip_snow: 'mdi:snowflake'
+      ico_wind_speed: 'mdi:weather-windy'
+      ico_uv_index: 'mdi:white-balance-sunny'
+      ico_cloud_coverage: 'mdi:apple-icloud'
+      ico_humidity: 'mdi:water-percent'
+      ico_ozone: 'mdi:earth'
+      ico_sunrise: 'mdi:weather-sunset-up'
+      ico_sunset: 'mdi:weather-sunset-down'
+      
+      
+      ico_moon_new: 'mdi:moon-new'
+      ico_moon_waxing_crescent: 'mdi:moon-waxing-crescent'
+      ico_moon_waxing_gibbous: 'mdi:moon-waxing-gibbous'
+      ico_moon_first_quarter: 'mdi:moon-first-quarter'
+      ico_moon_last_quarter: 'mdi:moon-last-quarter'
+      ico_moon_waning_gibbous: 'mdi:moon-waning-gibbous'
+      ico_moon_waning_crescent: 'mdi:moon-waning-crescent'
+      ico_moon_full: 'mdi:moon-full'
+      
+    
+      color_min_temp: '#5797ff'
+      color_max_temp: '#b33300'
+      color_icon_temp: '#636363'
+      size_temp: '0.9em'
+      
+      color_day_name: '#3258a8'
+      
+      color_cold_temp: '#4f90ff'
+      color_hot_temp: '#6b001d'
+      color_ok_temp: '#25334a'
+      
+      pollen_ico_1: 'mdi:circle-slice-2'
+      pollen_ico_2: 'mdi:circle-slice-4'
+      pollen_ico_3: 'mdi:circle-slice-6'
+      pollen_ico_4: 'mdi:circle-slice-8'
+      pollen_ico_5: 'mdi:alert-circle'
+      
+      pollen_color_1: '#75f94c'
+      pollen_color_2: '#377d22'
+      pollen_color_3: '#fffd54'
+      pollen_color_4: '#ef8641'
+      pollen_color_5: '#ea3522'
+      
+  meteo_pollens:
+    template: meteo_vars
+    entity: weather.dark_sky 
+    layout: vertical
+    color_type: card
+    color: rgb(255, 255, 255)
+    show_label: true
+    show_icon: false
+    show_name: false
+    styles:
+      label:
+        - align-self: start
+        - text-align: start
+    label: >
+      [[[
+        var res = ``;
+        var i = 0;
+        var level = 0;
+        for (i=0; i<states['sensor.pollens_69'].attributes.risks.length; i++){ 
+            level = states['sensor.pollens_69'].attributes.risks[i].level;
+            if(level != '0' && (i%2 == variables.item_pair)){
+                res = res + `<ha-icon icon="` + variables['pollen_ico_' + level] + `" style="width:15px;height:15px;color:` + variables['pollen_color_' + level] + `"> </ha-icon> ` + 
+                            states['sensor.pollens_69'].attributes.risks[i].pollenName + 
+                            ` (` + level + `/5)<br/>`
+            }
+        }
+        return res;
+      ]]]
+    style: |
+      ha-card {
+        box-shadow: none;
+      }
+      
+  meteo_lib:
+    template: meteo_vars
+    entity: weather.dark_sky 
+    color_type: label-card
+    color: 'var(--label-card-color)'
+    show_label: true
+    show_icon: false
+    show_name: false
+    style: |
+      ha-card {
+        height: 10px;
+      }
+      
+  meteo_card:
+    template: meteo_vars
+    entity: weather.dark_sky 
+    layout: vertical
+    color_type: card
+    color: rgb(255, 255, 255)
+    style: |
+      ha-card {
+        box-shadow: none;
+      }
+      
+  meteo_card_day_date:
+    template: meteo_card
+    entity: weather.dark_sky 
+    show_label: true
+    show_icon: false
+    show_name: false
+    label: >
+      [[[
+        var i = variables.item_num;
+        if(i.substr(1,1) == 'd'){
+            var days = variables.list_days;
+            var myDate = new Date(states['weather.dark_sky'].attributes.forecast[i.substr(0,1)].datetime);
+            return days[myDate.getDay()].substr(0,3) + ` ` + myDate.getDate() + `/` + (myDate.getMonth()<10?'0':'') + myDate.getMonth();
+        }else{
+            var myDate = new Date();
+            myDate.setHours( parseInt(myDate.getHours()) + parseInt(i) );
+            return (myDate.getHours()<10?'0':'') + myDate.getHours() + 'h';
+        }
+      ]]]
+    styles:
+      label: 
+        - color: '[[[ return variables.color_day_name ]]]'
+        - font-weight: bold
+    
+  meteo_card_day_ico:
+    template: meteo_card
+    entity: weather.dark_sky 
+    show_label: true
+    show_icon: false
+    show_name: false
+    # icon: >
+      # [[[
+        # var i = variables.item_num;
+        # var ico_tmp = states['sensor.dark_sky_icon_' + i].state;
+        # var ico = variables['ico-' + ico_tmp];
+        # return ico;
+      # ]]]
+    # styles:
+      # icon: 
+        # - color: >
+            # [[[
+              # var i = variables.item_num;
+              # var color_tmp = states['sensor.dark_sky_icon_' + i].state;
+              # var color = variables['color-' + color_tmp];
+              # return color;
+            # ]]]
+    label: >
+      [[[
+        var i = variables.item_num;
+        
+        if(i.substr(1,1) == 'd'){
+            var moon_phase_ico = '';
+            var moon_state = states['sensor.dark_sky_moon_phase_' + i].state;
+            if(moon_state < 0.05){
+                moon_phase_ico = variables.ico_moon_new;
+            }else{
+                if(moon_state < 0.15){
+                    moon_phase_ico = variables.ico_moon_waxing_crescent;
+                }else{
+                    if(moon_state < 0.25){
+                        moon_phase_ico = variables.ico_moon_first_quarter;
+                    }else{
+                        if(moon_state < 0.50){
+                            moon_phase_ico = variables.ico_moon_waxing_gibbous;
+                        }else{
+                            if(moon_state < 0.54){
+                                moon_phase_ico = variables.ico_moon_full;
+                            }else{
+                                if(moon_state < 0.65){
+                                    moon_phase_ico = variables.ico_moon_waning_gibbous;
+                                }else{
+                                    if(moon_state < 0.75){
+                                        moon_phase_ico = variables.ico_moon_last_quarter;
+                                    }else{
+                                        if(moon_state < 0.95){
+                                            moon_phase_ico = variables.ico_moon_waning_crescent;
+                                        }else{
+                                            moon_phase_ico = variables.ico_moon_new;
+                                        }
+                                    }   
+                                }  
+                            }   
+                        }
+                    }   
+                }                
+            }
+            
+            return  `<span style="font-size:` + variables.size_temp + `;color:` + variables.color_min_temp + `;">` + 
+                        states['sensor.dark_sky_overnight_low_temperature_' + i].state + `°C (`+ states['sensor.dark_sky_overnight_low_apparent_temperature_' + i].state +`)</span><br/>` +
+                        
+                    `<span style="font-size:` + variables.size_temp + `;color:` + variables.color_max_temp + `;">` + 
+                            states['sensor.dark_sky_daytime_high_temperature_' + i].state + `°C (`+ states['sensor.dark_sky_daytime_high_apparent_temperature_' + i].state +`)</span><br/>` + 
+                            
+                    `<ha-icon icon="` + moon_phase_ico + `" style="width:15px;height:15px;"> </ha-icon>`
+            ;
+        }else{
+        
+            var color = variables.color_ok_temp;
+            if(states['sensor.dark_sky_temperature_' + i].state < 10){
+                color = variables.color_cold_temp; 
+            }
+            if(states['sensor.dark_sky_temperature_' + i].state > 30){
+                color = variables.color_hot_temp; 
+            }
+            
+            return  `<span style="font-size:` + variables.size_temp + `;color:` + color + `;">` + 
+                        states['sensor.dark_sky_temperature_' + i].state + `°C (`+ states['sensor.dark_sky_apparent_temperature_' + i].state +`)</span><br/>`
+            ;
+        }
+        
+      ]]]
+
+  meteo_card_day_text:
+    template: meteo_card
+    entity: weather.dark_sky 
+    show_label: true
+    show_icon: false
+    show_name: false
+    styles:
+      label:
+        - align-self: start
+        - text-align: start
+    label: >
+      [[[
+        var i = variables.item_num;
+        
+        var precip_txt = '0%';
+        var precip_ico = variables.ico_precip_rain;
+        var precip_state = states['sensor.dark_sky_precip_' + i].state;
+        if(precip_state != 'unknown'){
+            if(precip_state == 'rain'){
+                precip_ico = variables.ico_precip_rain;
+                precip_txt = states['sensor.dark_sky_precip_probability_' + i].state + states['sensor.dark_sky_precip_probability_' + i].attributes.unit_of_measurement + ` - ` + 
+                             states['sensor.dark_sky_precip_intensity_' + i].state + states['sensor.dark_sky_precip_intensity_' + i].attributes.unit_of_measurement
+            }
+            if(precip_state == 'snow'){
+                precip_ico = variables.ico_precip_snow;
+                precip_txt = states['sensor.dark_sky_precip_probability_' + i].state + states['sensor.dark_sky_precip_probability_' + i].attributes.unit_of_measurement + ` - ` + 
+                             states['sensor.dark_sky_precip_accumulation_' + i].state + states['sensor.dark_sky_precip_accumulation_' + i].attributes.unit_of_measurement
+                ;
+            }
+            if(precip_state == 'sleet'){
+                precip_ico = variables.ico_precip_rain;
+                precip_txt = states['sensor.dark_sky_precip_probability_' + i].state + states['sensor.dark_sky_precip_probability_' + i].attributes.unit_of_measurement + ` - ` + 
+                             states['sensor.dark_sky_precip_accumulation_' + i].state + states['sensor.dark_sky_precip_accumulation_' + i].attributes.unit_of_measurement
+            }
+        }
+            
+            
+        var return_html =
+                `<ha-icon icon="` + variables.ico_wind_speed + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                    + Math.round(states['sensor.dark_sky_wind_speed_' + i].state * 3.6) + `km/h (` + Math.round(states['sensor.dark_sky_wind_gust_' + i].state * 3.6) + `)<br/>` + 
+                    
+               `<ha-icon icon="` + variables.ico_uv_index + `" style="width:15px;height:15px;"> </ha-icon> UV: ` 
+                    + states['sensor.dark_sky_uv_index_' + i].state + `<br/>` + 
+                    
+               `<ha-icon icon="` + variables.ico_cloud_coverage + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                    + states['sensor.dark_sky_cloud_coverage_' + i].state + states['sensor.dark_sky_cloud_coverage_' + i].attributes.unit_of_measurement + `<br/>` + 
+                    
+               `<ha-icon icon="` + precip_ico + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                    + precip_txt + `<br/>` + 
+                    
+               `<ha-icon icon="` + variables.ico_humidity + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                    + states['sensor.dark_sky_humidity_' + i].state + states['sensor.dark_sky_humidity_' + i].attributes.unit_of_measurement
+            ;
+            
+        if(i.substr(1,1) == 'd'){
+            var myDate = new Date(states['sensor.dark_sky_sunrise_' + i].state);
+            var sunrise_time = (myDate.getHours()<10?'0':'') + myDate.getHours() + `h` + (myDate.getMinutes()<10?'0':'') + myDate.getMinutes();
+            
+            myDate = new Date(states['sensor.dark_sky_sunset_' + i].state);
+            var sunset_time = (myDate.getHours()<10?'0':'') + myDate.getHours() + `h` + (myDate.getMinutes()<10?'0':'') + myDate.getMinutes();     
+            
+            return_html = return_html +
+                `<br/>` + 
+                    
+               `<ha-icon icon="` + variables.ico_sunrise + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                    + sunrise_time + `<br/>` + 
+                    
+               `<ha-icon icon="` + variables.ico_sunset + `" style="width:15px;height:15px;"> </ha-icon> ` 
+                    + sunset_time 
+            ;
+        }
+        
+        return return_html;
+        
+      ]]]
+    
+    
+    
+title: Weather
+views:
+  - !include lovelace/views/weather.yaml
