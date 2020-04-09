@@ -1,0 +1,9 @@
+#pollens
+- platform: rest
+  resource: https://www.pollens.fr/risks/thea/counties/69
+  name: pollens_69  
+  scan_interval: 300
+  json_attributes:
+    - risks
+  value_template: '{{ value_json.countyName }}'
+ 
