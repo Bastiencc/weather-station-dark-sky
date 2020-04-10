@@ -1,0 +1,47 @@
+title: Pollens Only
+icon: mdi:weather-sunset
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        variables:
+          pollen_ico_1: 'mdi:circle-slice-2'
+          pollen_ico_2: 'mdi:circle-slice-4'
+          pollen_ico_3: 'mdi:circle-slice-6'
+          pollen_ico_4: 'mdi:circle-slice-8'
+          pollen_ico_5: 'mdi:alert-circle'
+
+          pollen_color_1: '#75f94c'
+          pollen_color_2: '#377d22'
+          pollen_color_3: '#fffd54'
+          pollen_color_4: '#ef8641'
+          pollen_color_5: '#ea3522'    
+        layout: vertical
+        color_type: card
+        color: rgb(255, 255, 255)
+        show_label: true
+        show_icon: false
+        show_name: false
+        styles:
+          label:
+            - align-self: start
+            - text-align: start
+        label: >
+          [[[
+            var res = ``;
+            var i = 0;
+            var level = 0;
+            for (i=0; i<states['sensor.pollens_69'].attributes.risks.length; i++){ 
+                level = states['sensor.pollens_69'].attributes.risks[i].level;
+                if(level != '0'){
+                    res = res + `<ha-icon icon="` + variables['pollen_ico_' + level] + `" style="width:15px;height:15px;color:` + variables['pollen_color_' + level] + `"> </ha-icon> ` + 
+                                states['sensor.pollens_69'].attributes.risks[i].pollenName + 
+                                ` (` + level + `/5)<br/>`
+                }
+            }
+            return res;
+          ]]]
+        style: |
+          ha-card {
+            box-shadow: none;
+          }
