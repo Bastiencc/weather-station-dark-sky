@@ -20,4 +20,4 @@ If you want only
 
 ![sample1](https://i.ibb.co/Vt513KK/1.jpg)
 ![sample2](https://i.ibb.co/RHKhkRD/2.jpg)
-![sample3](https://i.ibb.co/fk6wSv8/3.jpg)
+![sample3](https://i.ibb.co/P60LT7Z/2020-04-11-15-08-08.jpg)
