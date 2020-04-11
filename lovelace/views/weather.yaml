@@ -213,7 +213,7 @@ cards:
             show_label: true
             show_icon: true
             show_name: false
-            icon: mdi:television-classic
+            icon: mdi:sofa
             label: >
               [[[
                 return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
@@ -242,7 +242,7 @@ cards:
             show_label: true
             show_icon: true
             show_name: false
-            icon: mdi:bed-king-outline
+            icon: mdi:bed-empty
             label: >
               [[[
                 return `<ha-icon icon="mdi:thermometer" style="width:15px;height:15px;"> </ha-icon>` + 
