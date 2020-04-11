@@ -1003,7 +1003,123 @@ cards:
             variables:
               item_num: '6d'                
               
+                     
+  - type: "custom:button-card"
+    template: meteo_lib
+    label: Pollution
+    
+
+  - type: horizontal-stack
+    cards:
+      - type: "custom:button-card"
+        template: meteo_pollution
+        label: >
+          [[[
+            var aqi = states['sensor.chinese_air_quality_index_2'].state;
+            var aqi_level = '1';
+            if(aqi <= 50){
+                aqi_level = '1';
+            }else{
+                if(aqi <= 100){
+                    aqi_level = '2';
+                }else{
+                    if(aqi <= 150){
+                        aqi_level = '3';
+                    }else{
+                        if(aqi <= 200){
+                            aqi_level ='4';
+                        }else{
+                            if(aqi <= 300){
+                                aqi_level = '5';
+                            }else{
+                                if(aqi <= 9999){
+                                    aqi_level = '6';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return `<img src="/local/img/pollution/` + aqi_level + `.svg?v=0.107"/>`
+            ;
+          ]]]
           
+      - type: "custom:button-card"
+        template: meteo_pollution
+        label: >
+          [[[
+            var aqi = states['sensor.chinese_air_quality_index_2'].state;
+            var aqi_unit = states['sensor.chinese_air_quality_index_2'].attributes.unit_of_measurement;
+            var aqi_level = '1';
+            if(aqi <= 50){
+                aqi_level = '1';
+            }else{
+                if(aqi <= 100){
+                    aqi_level = '2';
+                }else{
+                    if(aqi <= 150){
+                        aqi_level = '3';
+                    }else{
+                        if(aqi <= 200){
+                            aqi_level ='4';
+                        }else{
+                            if(aqi <= 300){
+                                aqi_level = '5';
+                            }else{
+                                if(aqi <= 9999){
+                                    aqi_level = '6';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return `<span style="font-size:1.7em;color:` + variables['pollution_color_' + aqi_level] + `">` + aqi + `</span><br/>
+                    <span style="font-size:0.9em;color:` + variables['pollution_color_' + aqi_level] + `">` + aqi_unit + `</span>`
+            ;
+          ]]]
+          
+          
+      - type: "custom:button-card"
+        template: meteo_pollution
+        label: >
+          [[[
+            var level = states['sensor.chinese_air_pollution_level_2'].state;
+            var aqi = states['sensor.chinese_air_quality_index_2'].state;
+            var aqi_unit = states['sensor.chinese_air_quality_index_2'].attributes.unit_of_measurement;
+            var pol = states['sensor.chinese_main_pollutant_2'].state;
+            var pol_unit = states['sensor.chinese_main_pollutant_2'].attributes.pollutant_unit;
+            var aqi_level = '1';
+            if(aqi <= 50){
+                aqi_level = '1';
+            }else{
+                if(aqi <= 100){
+                    aqi_level = '2';
+                }else{
+                    if(aqi <= 150){
+                        aqi_level = '3';
+                    }else{
+                        if(aqi <= 200){
+                            aqi_level ='4';
+                        }else{
+                            if(aqi <= 300){
+                                aqi_level = '5';
+                            }else{
+                                if(aqi <= 9999){
+                                    aqi_level = '6';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return `<span style="font-size:1.5em;color:` + variables['pollution_color_' + aqi_level] + `">` + level + `</span><br/>
+                    <span style="font-size:0.9em;color:` + variables['pollution_color_' + aqi_level] + `">` + pol + ` | ` + pol_unit +`</span>`
+            ;
+          ]]]
+
+
+
   - type: "custom:button-card"
     template: meteo_lib
     label: Pollens
