@@ -4,3 +4,9 @@ weather:
   - platform: darksky
     api_key: !secret darksky_api_key
     mode: daily
+
+airvisual:
+  api_key: !secret airvisual_api_key
+  geographies:
+    latitude: !secret latitude
+    longitude: !secret longitude
