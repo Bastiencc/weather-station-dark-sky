@@ -1015,7 +1015,7 @@ cards:
         template: meteo_pollution
         label: >
           [[[
-            var aqi = states['sensor.chinese_air_quality_index_2'].state;
+            var aqi = states['sensor.chinese_air_quality_index'].state;
             var aqi_level = '1';
             if(aqi <= 50){
                 aqi_level = '1';
@@ -1048,8 +1048,8 @@ cards:
         template: meteo_pollution
         label: >
           [[[
-            var aqi = states['sensor.chinese_air_quality_index_2'].state;
-            var aqi_unit = states['sensor.chinese_air_quality_index_2'].attributes.unit_of_measurement;
+            var aqi = states['sensor.chinese_air_quality_index'].state;
+            var aqi_unit = states['sensor.chinese_air_quality_index'].attributes.unit_of_measurement;
             var aqi_level = '1';
             if(aqi <= 50){
                 aqi_level = '1';
@@ -1084,11 +1084,11 @@ cards:
         template: meteo_pollution
         label: >
           [[[
-            var level = states['sensor.chinese_air_pollution_level_2'].state;
-            var aqi = states['sensor.chinese_air_quality_index_2'].state;
-            var aqi_unit = states['sensor.chinese_air_quality_index_2'].attributes.unit_of_measurement;
-            var pol = states['sensor.chinese_main_pollutant_2'].state;
-            var pol_unit = states['sensor.chinese_main_pollutant_2'].attributes.pollutant_unit;
+            var level = states['sensor.chinese_air_pollution_level'].state;
+            var aqi = states['sensor.chinese_air_quality_index'].state;
+            var aqi_unit = states['sensor.chinese_air_quality_index'].attributes.unit_of_measurement;
+            var pol = states['sensor.chinese_main_pollutant'].state;
+            var pol_unit = states['sensor.chinese_main_pollutant'].attributes.pollutant_unit;
             var aqi_level = '1';
             if(aqi <= 50){
                 aqi_level = '1';
