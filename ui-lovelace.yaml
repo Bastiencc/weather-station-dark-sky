@@ -94,6 +94,28 @@ button_card_templates:
       pollen_color_4: '#ef8641'
       pollen_color_5: '#ea3522'
       
+      pollution_color_1: '#718B3A'
+      pollution_color_2: '#A57F23'
+      pollution_color_3: '#B25826'
+      pollution_color_4: '#AF2C3B'
+      pollution_color_5: '#634675'
+      pollution_color_6: '#683E51'
+      
+      
+  meteo_pollution:
+    template: meteo_vars
+    entity: sensor.chinese_air_quality_index
+    layout: vertical
+    color_type: card
+    color: rgb(255, 255, 255)
+    show_label: true
+    show_icon: false
+    show_name: false
+    style: |
+      ha-card {
+        box-shadow: none;
+      }      
+      
   meteo_pollens:
     template: meteo_vars
     entity: weather.dark_sky 
