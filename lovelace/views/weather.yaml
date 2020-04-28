@@ -9,7 +9,8 @@ cards:
           [[[
             var days = variables.list_days;
             var myDate = new Date();
-            return `Aujourd'hui, ` + days[myDate.getDay()] + ` ` + myDate.getDate() + `/` + (myDate.getMonth()<10?'0':'') + myDate.getMonth();
+            var month = myDate.getMonth() + 1;
+            return `Aujourd'hui, ` + days[myDate.getDay()] + ` ` + myDate.getDate() + `/` + (month<10?'0':'') + month;
           ]]]
 
       - type: horizontal-stack
