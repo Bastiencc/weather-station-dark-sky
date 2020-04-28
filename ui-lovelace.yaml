@@ -185,7 +185,8 @@ button_card_templates:
         if(i.substr(1,1) == 'd'){
             var days = variables.list_days;
             var myDate = new Date(states['weather.dark_sky'].attributes.forecast[i.substr(0,1)].datetime);
-            return days[myDate.getDay()].substr(0,3) + ` ` + myDate.getDate() + `/` + (myDate.getMonth()<10?'0':'') + myDate.getMonth();
+            var month = myDate.getMonth() + 1;
+            return days[myDate.getDay()].substr(0,3) + ` ` + myDate.getDate() + `/` + (month<10?'0':'') + month;
         }else{
             var myDate = new Date();
             myDate.setHours( parseInt(myDate.getHours()) + parseInt(i) );
