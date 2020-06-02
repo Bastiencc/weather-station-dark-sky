@@ -6,4 +6,6 @@
   json_attributes:
     - risks
   value_template: '{{ value_json.countyName }}'
- 
+  headers:
+    User-Agent: Home Assistant
+    Content-Type: application/json
