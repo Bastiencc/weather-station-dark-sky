@@ -1,6 +1,6 @@
 # Lovelace Weather Station 🌞🌛
 
-The Lovelace Weather Station view provides current and forecasted weather conditions using the [Dark Sky](https://www.home-assistant.io/integrations/darksky/) (now user [pirate-weather](https://github.com/alexander0042/pirate-weather-ha) integration, [Pollen.fr](http://pollen.fr) and [AirVisual](https://www.home-assistant.io/integrations/airvisual/) integration.
+The Lovelace Weather Station view provides current and forecasted weather conditions using the [Dark Sky](https://www.home-assistant.io/integrations/darksky/) (now use [pirate-weather](https://github.com/alexander0042/pirate-weather-ha) integration, [Pollen.fr](http://pollen.fr) and [AirVisual](https://www.home-assistant.io/integrations/airvisual/) integration.
 
 ## Requirements
 
